@@ -7,6 +7,7 @@ import { MapPin, CreditCard, Package, Lock } from "lucide-react"
 import type { CartItem } from "@/components/cart/cart-item"
 import type { ShippingInfo } from "./shipping-form"
 import type { PaymentInfo } from "./payment-form"
+import Image from "next/image"
 
 interface OrderReviewProps {
   items: CartItem[]
@@ -52,7 +53,7 @@ export function OrderReview({
             <div className="space-y-3">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
-                  <img
+                  <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.name}
                     className="w-12 h-12 object-cover rounded-lg"

@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import type { CartItem } from "@/components/cart/cart-item"
+import Image from "next/image"
 
 interface CheckoutPageProps {
   items: CartItem[]
@@ -21,6 +22,7 @@ interface CheckoutPageProps {
   onBack: () => void
   onOrderComplete: () => void
 }
+
 
 export function CheckoutPage({ items, user, onBack, onOrderComplete }: CheckoutPageProps) {
   const [formData, setFormData] = useState({
@@ -59,6 +61,14 @@ export function CheckoutPage({ items, user, onBack, onOrderComplete }: CheckoutP
     setShowSuccessModal(false)
     onOrderComplete()
   }
+
+  <Button
+    variant="outline"
+    onClick={onBack}
+    className="mb-4"
+  >
+    ← Back to Cart
+  </Button>
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -156,7 +166,7 @@ export function CheckoutPage({ items, user, onBack, onOrderComplete }: CheckoutP
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center space-x-3">
-                  <img
+                  <Image
                     src={item.image || "/placeholder.svg?height=48&width=48"}
                     alt={item.name}
                     className="w-12 h-12 object-cover rounded"

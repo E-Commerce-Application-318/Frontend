@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import type { CartItem } from "@/components/cart/cart-item"
+import Image from "next/image"
 
 interface OrderSummaryProps {
   items: CartItem[]
@@ -28,7 +29,7 @@ export function OrderSummary({ items, showItemDetails = true }: OrderSummaryProp
             {items.map((item) => (
               <div key={item.id} className="flex items-center space-x-3">
                 <div className="relative">
-                  <img
+                  <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.name}
                     className="w-12 h-12 object-cover rounded-lg"

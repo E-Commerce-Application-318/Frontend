@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Star, ShoppingCart } from "lucide-react"
+import Image from "next/image"
 
 export interface Product {
   id: string
@@ -33,7 +34,7 @@ export function ProductCard({ product, onAddToCart, onProductClick }: ProductCar
     <Card className="group cursor-pointer hover:shadow-lg transition-shadow duration-200">
       <CardContent className="p-0">
         <div className="relative overflow-hidden rounded-t-lg" onClick={() => onProductClick(product)}>
-          <img
+          <Image
             src={product.image || "/placeholder.svg"}
             alt={product.name}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
