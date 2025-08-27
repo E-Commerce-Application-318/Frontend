@@ -1,11 +1,30 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import type { Product } from "@/components/products/product-card"
 import type { CartItem } from "@/components/cart/cart-item"
 
 export function useCart() {
   const [items, setItems] = useState<CartItem[]>([])
+  const [isReady, setIsReady] = useState(false)   // add flag
+
+
+  //  Load from localStorage when mount
+  useEffect(() => {
+    const stored = localStorage.getItem("cart")
+    if (stored) {
+      setItems(JSON.parse(stored))
+    }
+    setIsReady(true)
+  }, [])
+
+  // when items change -> save into localStorage
+  useEffect(() => {
+    if (isReady) {
+      localStorage.setItem("cart", JSON.stringify(items))
+    }
+  }, [items, isReady])
+
 
   const addToCart = useCallback((product: Product) => {
     setItems((prev) => {
@@ -56,5 +75,6 @@ export function useCart() {
     clearCart,
     getCartTotal,
     getCartItemCount,
+    isReady,   // expose flag
   }
 }

@@ -14,7 +14,7 @@ const initialProducts: Product[] = [
     name: "Classic Denim Jacket",
     price: 89,
     originalPrice: 120,
-    image: "/classic-blue-denim-jacket.png", // image must be inside /publics
+    image: "/image/classic-blue-denim-jacket.png", 
     rating: 4.8,
     reviewCount: 324,
     category: "Jackets",
@@ -25,7 +25,7 @@ const initialProducts: Product[] = [
     id: "2",
     name: "Premium Cotton T-Shirt",
     price: 29,
-    image: "/fashion-cotton-tshirt.png",
+    image: "/image/fashion-cotton-tshirt.png",
     rating: 4.7,
     reviewCount: 892,
     category: "T-Shirts",
@@ -37,7 +37,7 @@ const initialProducts: Product[] = [
     name: "Designer Skinny Jeans",
     price: 79,
     originalPrice: 99,
-    image: "/fashion-skinny-jeans.png",
+    image: "/image/fashion-skinny-jeans.png",
     rating: 4.6,
     reviewCount: 456,
     category: "Jeans",
@@ -49,7 +49,7 @@ const initialProducts: Product[] = [
     name: "Leather Ankle Boots",
     price: 149,
     originalPrice: 199,
-    image: "/fashion-ankle-boots.png",
+    image: "/image/fashion-ankle-boots.png",
     rating: 4.9,
     reviewCount: 234,
     category: "Shoes",
@@ -60,7 +60,7 @@ const initialProducts: Product[] = [
     id: "5",
     name: "Casual Summer Dress",
     price: 65,
-    image: "/fashion-summer-dress.png",
+    image: "/image/fashion-summer-dress.png",
     rating: 4.5,
     reviewCount: 178,
     category: "Dresses",
@@ -72,7 +72,7 @@ const initialProducts: Product[] = [
     name: "Wool Blend Sweater",
     price: 95,
     originalPrice: 125,
-    image: "/fashion-wool-sweater.png",
+    image: "/image/fashion-wool-sweater.png",
     rating: 4.8,
     reviewCount: 267,
     category: "Sweaters",
@@ -83,7 +83,7 @@ const initialProducts: Product[] = [
     id: "7",
     name: "Designer Handbag",
     price: 199,
-    image: "/fashion-designer-handbag.png",
+    image: "/image/fashion-designer-handbag.png",
     rating: 4.7,
     reviewCount: 145,
     category: "Accessories",
@@ -95,7 +95,7 @@ const initialProducts: Product[] = [
     name: "Athletic Sneakers",
     price: 129,
     originalPrice: 159,
-    image: "/athletic-sneakers-white.png.png",
+    image: "/image/athletic-sneakers-white.png",
     rating: 4.6,
     reviewCount: 389,
     category: "Shoes",
@@ -106,16 +106,8 @@ const initialProducts: Product[] = [
 
 export default function HomePage() {
   const router = useRouter() // declare router
-  // TODO: Replace with global user state
   const [user, setUser] = useState<{ name: string; email: string; userType: "customer" | "seller" } | null>(null)
 
-  // Search input for products
-  const [searchQuery, setSearchQuery] = useState("")
-
-  // Store products - TODO: Move to global state
-  const [products, setProducts] = useState<Product[]>(initialProducts)
-
-  // Cart hook (manages items and cart actions)
   const { addToCart } = useCart()
 
   useEffect(() => {
@@ -131,13 +123,17 @@ export default function HomePage() {
     addToCart(product)
   }
 
+  const handleProductClick = (product: Product) => {
+    console.log("Product clicked:", product)
+  }
+
   return (
     <PageLayout user={user}>
       <ProductCatalog
-        searchQuery={searchQuery}
+        searchQuery=""
         onAddToCart={handleAddToCart}
-        onProductClick={(p) => console.log("Product clicked:", p)}
-        products={products}
+        onProductClick={handleProductClick}
+        products={initialProducts}
       />
     </PageLayout>
   )

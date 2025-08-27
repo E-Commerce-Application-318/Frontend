@@ -7,9 +7,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Eye, EyeOff, Shield, Users, CheckCircle, User, Mail } from "lucide-react"
 
+
+type RegisterUser = {
+  name: string
+  email: string
+  password: string
+  userType: "customer" | "seller"
+}
+
 interface AuthFormProps {
   onLogin: (email: string, password: string, userType: "customer" | "seller") => void
-  onRegister: (userData: unknown) => void
+  onRegister: (userData: RegisterUser) => void
   initialMode?: "login" | "register"
 }
 

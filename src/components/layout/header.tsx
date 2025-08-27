@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -14,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Search, ShoppingCart, User, Menu, X, Settings, LogOut, Package } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, Settings, LogOut } from "lucide-react"
 
 interface HeaderProps {
   user?: {
@@ -22,7 +21,7 @@ interface HeaderProps {
     userType: "customer" | "seller"
   } | null
   cartItemCount?: number
-  onAuthClick: (mode?: "login" | "register") => void // Added mode parameter
+  onAuthClick: (mode?: "login" | "register") => void
   onCartClick: () => void
   onSearch?: (query: string) => void
   onDashboardClick?: () => void
@@ -36,7 +35,6 @@ export function Header({
   onAuthClick,
   onCartClick,
   onSearch,
-  onDashboardClick,
   onLogout,
   onHomeClick,
 }: HeaderProps) {
@@ -57,12 +55,19 @@ export function Header({
     }
   }
 
+  const handleDashboardClick = () => {
+    router.push("/dashboard")
+  }
+
   return (
     <header className="bg-background border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <button onClick={handleLogoClick} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+          <button
+            onClick={handleLogoClick}
+            className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">H4</span>
             </div>
@@ -92,7 +97,12 @@ export function Header({
           <div className="flex items-center space-x-4">
             {/* Cart Button - Only show for customers */}
             {(!user || user.userType === "customer") && (
-              <Button variant="outline" size="sm" className="relative bg-transparent" onClick={onCartClick}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="relative bg-transparent"
+                onClick={onCartClick}
+              >
                 <ShoppingCart className="h-4 w-4" />
                 {cartItemCount > 0 && (
                   <Badge
@@ -108,27 +118,29 @@ export function Header({
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="flex items-center space-x-2 bg-transparent">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center space-x-2 bg-transparent"
+                  >
                     <User className="h-4 w-4" />
                     <span className="hidden sm:inline">Welcome, {user.name}</span>
                     <span className="sm:hidden">{user.name}</span>
-                    <Badge variant={user.userType === "seller" ? "secondary" : "outline"}>{user.userType}</Badge>
+                    <Badge variant={user.userType === "seller" ? "secondary" : "outline"}>
+                      {user.userType}
+                    </Badge>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem onClick={onDashboardClick}>
-                    {user.userType === "seller" ? (
-                      <>
-                        <Package className="mr-2 h-4 w-4" />
-                        Seller Dashboard
-                      </>
-                    ) : (
-                      <>
-                        <User className="mr-2 h-4 w-4" />
-                        Profile
-                      </>
-                    )}
-                  </DropdownMenuItem>
+                  {user.userType === "seller" ? (
+                    <DropdownMenuItem onClick={handleDashboardClick}>
+                      Seller Dashboard
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem onClick={handleDashboardClick}>
+                      Profile
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem>
                     <Settings className="mr-2 h-4 w-4" />
                     Settings
@@ -145,7 +157,7 @@ export function Header({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => onAuthClick("login")} // Pass login mode
+                  onClick={() => onAuthClick("login")}
                   className="bg-transparent border-blue-600 text-blue-600 hover:bg-blue-50"
                 >
                   Login
@@ -155,8 +167,6 @@ export function Header({
                   onClick={() => onAuthClick("register")}
                   className="bg-blue-600 hover:bg-blue-700 text-white"
                 >
-                  {" "}
-                  {/* Pass register mode */}
                   Register
                 </Button>
               </div>

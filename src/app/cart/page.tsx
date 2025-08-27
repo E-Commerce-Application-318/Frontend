@@ -7,7 +7,7 @@ import { useCart } from "@/hooks/use-cart"
 
 export default function CartPage() {
   const router = useRouter()
-  const { items, updateQuantity, removeFromCart, clearCart } = useCart()
+  const { items, updateQuantity, removeFromCart } = useCart()
 
   const handleCheckout = () => {
     // TODO: Check if user is logged in via global state

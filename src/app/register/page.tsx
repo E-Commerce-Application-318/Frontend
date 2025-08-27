@@ -3,17 +3,28 @@
 import { useRouter } from "next/navigation"
 import { AuthForm } from "@/components/auth/auth-form"
 
+type RegisterUser = {
+  name: string
+  email: string
+  password: string
+  userType: "customer" | "seller"
+}
+
 export default function RegisterPage() {
   const router = useRouter()
-
   const handleLogin = () => {
     router.push("/login")
   }
 
-  const handleRegister = (userData: any) => {
+    const handleRegister = (userData: RegisterUser) => {
     console.log("Register:", userData)
-    // TODO: Implement proper registration and global state management
-    // For now, just redirect to home after registration
+    
+    const accounts: RegisterUser[] = JSON.parse(localStorage.getItem("accounts") || "[]")
+    accounts.push(userData)
+    localStorage.setItem("accounts", JSON.stringify(accounts))
+    
+
+    localStorage.setItem("user", JSON.stringify(userData))
     router.push("/")
   }
 

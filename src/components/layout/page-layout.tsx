@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/layout/header"
 import { CartDrawer } from "@/components/cart/cart-drawer"
 import { useCart } from "@/hooks/use-cart"
+import type { Product } from "@/components/products/product-card"
 
 interface PageLayoutProps {
-  children: React.ReactNode
+  children: React.ReactElement<{ onAddToCart?: (product: Product) => void }>
   user?: {
     name: string
     email: string
@@ -18,7 +19,17 @@ interface PageLayoutProps {
 export function PageLayout({ children, user = null }: PageLayoutProps) {
   const router = useRouter()
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [currentUser, setCurrentUser] = useState(user) // add state user
   const { items: cartItems, updateQuantity, removeFromCart, clearCart, getCartItemCount } = useCart()
+
+
+  // read user from localStorage when load the page
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser))
+    }
+  }, [])
 
   // === Navigation Handlers ===
   const handleAuthClick = (mode: "login" | "register" = "login") => {
@@ -38,13 +49,15 @@ export function PageLayout({ children, user = null }: PageLayoutProps) {
   }
 
   const handleLogout = () => {
+    localStorage.removeItem("user")   // fix logout 
     // TODO: Implement proper logout with global state
     clearCart()
+    setCurrentUser(null) // update state 
     router.push("/")
   }
 
   const handleCheckout = () => {
-    if (!user) {
+    if (!currentUser) {
       setIsCartOpen(false)
       router.push("/login")
       return
@@ -56,7 +69,7 @@ export function PageLayout({ children, user = null }: PageLayoutProps) {
   return (
     <div className="min-h-screen bg-background">
       <Header
-        user={user}
+        user={currentUser}  //  using state instead prop user
         cartItemCount={getCartItemCount()}
         onAuthClick={handleAuthClick}
         onCartClick={handleCartClick}
@@ -65,7 +78,7 @@ export function PageLayout({ children, user = null }: PageLayoutProps) {
         onHomeClick={handleHomeClick}
       />
 
-      <main>{children}</main>
+      <main> {children}</main>
 
       {/* Side cart drawer */}
       <CartDrawer

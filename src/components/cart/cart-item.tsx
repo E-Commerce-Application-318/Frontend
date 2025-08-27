@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Minus, Plus, Trash2 } from "lucide-react"
 import type { Product } from "@/components/products/product-card"
+import Image from "next/image"
 
 export interface CartItem extends Product {
   quantity: number
+  brand?: string 
 }
 
 interface CartItemProps {
@@ -30,7 +32,7 @@ export function CartItemComponent({ item, onUpdateQuantity, onRemove }: CartItem
     <div className="flex items-center space-x-4 py-4 border-b border-border">
       {/* Product Image */}
       <div className="flex-shrink-0">
-        <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-16 h-16 object-cover rounded-lg" />
+        <Image src={item.image || "/placeholder.svg"} alt={item.name} className="w-16 h-16 object-cover rounded-lg" />
       </div>
 
       {/* Product Details */}

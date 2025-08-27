@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { Minus, Plus } from "lucide-react"
 import type { CartItem } from "./cart-item"
+import Image from "next/image"
 
 interface ShoppingCartPageProps {
   items: CartItem[]
@@ -91,16 +92,18 @@ export function ShoppingCartPage({
                   />
 
                   <div className="w-16 h-16 flex-shrink-0">
-                    <img
+                    <Image
                       src={item.image || "/placeholder.svg?height=64&width=64&query=product"}
                       alt={item.name}
+                      width={64}        
+                      height={64} 
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                   </div>
 
                   <div className="flex-1">
                     <h3 className="font-medium">{item.name}</h3>
-                    <p className="text-sm text-muted-foreground">by {item.brand || item.seller}</p>
+                    <p className="text-sm text-muted-foreground">by {item.seller}</p>
                     <p className="text-sm text-primary">${item.price} each</p>
                   </div>
 
